@@ -27,9 +27,16 @@
                 <input type="checkbox" name="checkbox" value="2">
             </td>
         </tr>
-        <tr></tr>
-        <tr></tr>
-        <tr></tr>
+        <tr>
+            <td>FC Barcelona-Valencia CF</td>
+            <td name="ap2">
+                <label for="1">1</label>
+                <input type="checkbox" name="checkbox" value="1">
+                <label for="x">x</label>
+                <input type="checkbox" name="checkbox" value="x">
+                <label for="2">2</label>
+                <input type="checkbox" name="checkbox" value="2">
+            </td>
         <tr></tr>
         <tr></tr>
         <tr></tr>
