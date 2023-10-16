@@ -10,7 +10,18 @@
     </style>
 </HEAD>
 <BODY>
-   
+   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+       <table>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+       </table>
+   </form>
 <?php
 //28 equipos
 $arrayequipos=array("Real Madrid",
@@ -101,5 +112,5 @@ for ($x=0; $x <=13 ; $x++) {
 }
 echo "</table>";
 function imprimirPartidos(){
-    
+
 }
