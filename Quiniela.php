@@ -11,8 +11,11 @@
 </HEAD>
 <BODY>
    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-       <table>
-        <tr></tr>
+       <table border="1">
+        <tr>
+            <td>Partidos</td>
+            <td>Pronosticos</td>
+        </tr>
         <tr></tr>
         <tr></tr>
         <tr></tr>
