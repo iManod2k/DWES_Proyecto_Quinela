@@ -18,13 +18,13 @@
         </tr>
         <tr>
             <td>Celta de Vigo vs Real Madrid</td>
-            <td>
+            <td name="ap1">
                 <label for="1">1</label>
-                <input type="checkbox" name="checkbox" id="1">
+                <input type="checkbox" name="checkbox" value="1">
                 <label for="x">x</label>
-                <input type="checkbox" name="checkbox" id="x">
+                <input type="checkbox" name="checkbox" value="x">
                 <label for="2">2</label>
-                <input type="checkbox" name="checkbox" id="2">
+                <input type="checkbox" name="checkbox" value="2">
             </td>
         </tr>
         <tr></tr>
