@@ -1,6 +1,6 @@
 <HTML>
 <HEAD>
-    <TITLE> EJ1-Conversion IP Decimal a Binario </TITLE>
+    <TITLE>Quiniela</TITLE>
     <style>
        table, td{
         border: 1px solid black;
@@ -10,14 +10,52 @@
     </style>
 </HEAD>
 <BODY>
-   
+   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+       <table border="1">
+        <tr>
+            <td>Partidos</td>
+            <td>Pronosticos</td>
+        </tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+       </table>
+   </form>
 <?php
-
-
 //28 equipos
-
-$arrayequipos=array("Real Madrid","FC Barcelona","Atlético de Madrid","Valencia CF","Sevilla FC","Real Betis","Villarreal CF","Real Sociedad","Athletic Club","Getafe CF","Celta de Vigo","Levante UD","Espanyol","Deportivo Alavés","Real Valladolid","Granada CF","SD Eibar","Mallorca","Osasuna","Elche CF", "CD Leganés","Rayo Vallecano","Huesca","Cádiz CF","RCD Mallorca","Real Zaragoza","RC Deportivo","zaragoza FC");
-
+$arrayequipos=array("Real Madrid",
+    "FC Barcelona",
+    "Atlético de Madrid",
+    "Valencia CF",
+    "Sevilla FC",
+    "Real Betis",
+    "Villarreal CF",
+    "Real Sociedad",
+    "Athletic Club",
+    "Getafe CF",
+    "Celta de Vigo",
+    "Levante UD",
+    "Espanyol",
+    "Deportivo Alavés",
+    "Real Valladolid",
+    "Granada CF",
+    "SD Eibar",
+    "Mallorca",
+    "Osasuna",
+    "Elche CF",
+    "CD Leganés",
+    "Rayo Vallecano",
+    "Huesca",
+    "Cádiz CF",
+    "RCD Mallorca",
+    "Real Zaragoza",
+    "RC Deportivo",
+    "zaragoza FC"
+);
 
 $arraypartidos=array();
 
@@ -48,7 +86,10 @@ $arrayapuesta = array();
 
 for ($i=1; $i <= (8*14); $i++) { 
     
-    $arrayapuesta[$i-1] = $apuestas[rand(0,2)];//creamos las apuestas para cada partido en un unico array
+    //$arrayapuesta[$i-1] = $apuestas[rand(0,2)];//creamos las apuestas para cada partido en un unico array
+	$arrayapuesta[$i-1] = "<input type='checkbox' id='eq1' value='1'> 1 </input>";
+	$arrayapuesta[$i-1] .= "<input type='checkbox' id='emp' value='x'> X </input>";
+	$arrayapuesta[$i-1] .= "<input type='checkbox' id='eq2' value='2'> 2 </input>";
 }
 
 $arrayapuesta_partida = array_chunk($arrayapuesta, 8); // cogemos el array anterior, y lo convertimos. Vamos a coger cada 8 posiciones, guardarlas todas en un array. 
