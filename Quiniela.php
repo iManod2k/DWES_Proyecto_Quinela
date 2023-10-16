@@ -1,6 +1,6 @@
 <HTML>
 <HEAD>
-    <TITLE> EJ1-Conversion IP Decimal a Binario </TITLE>
+    <TITLE>Quiniela</TITLE>
     <style>
        table, td{
         border: 1px solid black;
