@@ -16,35 +16,8 @@
 
 //28 equipos
 
-$arrayequipos=array("Real Madrid",
-    "FC Barcelona",
-    "Atlético de Madrid",
-    "Valencia CF",
-    "Sevilla FC",
-    "Real Betis",
-    "Villarreal CF",
-    "Real Sociedad",
-    "Athletic Club",
-    "Getafe CF",
-    "Celta de Vigo",
-    "Levante UD",
-    "Espanyol",
-    "Deportivo Alavés",
-    "Real Valladolid",
-    "Granada CF",
-    "SD Eibar",
-    "Mallorca",
-    "Osasuna",
-    "Elche CF",
-    "CD Leganés",
-    "Rayo Vallecano",
-    "Huesca",
-    "Cádiz CF",
-    "RCD Mallorca",
-    "Real Zaragoza",
-    "RC Deportivo",
-    "zaragoza FC"
-);
+$arrayequipos=array("Real Madrid","FC Barcelona","Atlético de Madrid","Valencia CF","Sevilla FC","Real Betis","Villarreal CF","Real Sociedad","Athletic Club","Getafe CF","Celta de Vigo","Levante UD","Espanyol","Deportivo Alavés","Real Valladolid","Granada CF","SD Eibar","Mallorca","Osasuna","Elche CF", "CD Leganés","Rayo Vallecano","Huesca","Cádiz CF","RCD Mallorca","Real Zaragoza","RC Deportivo","zaragoza FC");
+
 
 $arraypartidos=array();
 
