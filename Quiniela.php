@@ -14,7 +14,7 @@
        <table border="1">
         <tr>
             <td>Partidos</td>
-            <td>Pronosticos</td>
+            <td rowspan="8">Pronosticos</td>
         </tr>
         <tr></tr>
         <tr></tr>
