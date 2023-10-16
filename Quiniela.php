@@ -20,11 +20,11 @@
             <td>Celta de Vigo vs Real Madrid</td>
             <td>
                 <label for="1">1</label>
-                <input type="radio" name="radio" id="1">
+                <input type="checkbox" name="checkbox" id="1">
                 <label for="x">x</label>
-                <input type="radio" name="radio" id="x">
+                <input type="checkbox" name="checkbox" id="x">
                 <label for="2">2</label>
-                <input type="radio" name="radio" id="2">
+                <input type="checkbox" name="checkbox" id="2">
             </td>
         </tr>
         <tr></tr>
