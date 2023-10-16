@@ -16,7 +16,17 @@
             <td>Partidos</td>
             <td rowspan="8">Pronosticos</td>
         </tr>
-        <tr></tr>
+        <tr>
+            <td>Celta de Vigo vs Real Madrid</td>
+            <td>
+                <label for="1">1</label>
+                <input type="radio" name="radio" id="1">
+                <label for="x">x</label>
+                <input type="radio" name="radio" id="x">
+                <label for="2">2</label>
+                <input type="radio" name="radio" id="2">
+            </td>
+        </tr>
         <tr></tr>
         <tr></tr>
         <tr></tr>
