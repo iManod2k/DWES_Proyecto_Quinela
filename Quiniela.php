@@ -12,10 +12,7 @@
 <BODY>
    
 <?php
-
-
 //28 equipos
-if($_SERVER["REQUEST_METHOD"]=="POST"){
 $arrayequipos=array("Real Madrid",
     "FC Barcelona",
     "Atlético de Madrid",
@@ -103,4 +100,3 @@ for ($x=0; $x <=13 ; $x++) {
     echo "</tr>";
 }
 echo "</table>";
-}
