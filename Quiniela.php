@@ -75,7 +75,10 @@ $arrayapuesta = array();
 
 for ($i=1; $i <= (8*14); $i++) { 
     
-    $arrayapuesta[$i-1] = $apuestas[rand(0,2)];//creamos las apuestas para cada partido en un unico array
+    //$arrayapuesta[$i-1] = $apuestas[rand(0,2)];//creamos las apuestas para cada partido en un unico array
+	$arrayapuesta[$i-1] = "<input type='checkbox' id='eq1' value='1'> 1 </input>";
+	$arrayapuesta[$i-1] .= "<input type='checkbox' id='emp' value='x'> X </input>";
+	$arrayapuesta[$i-1] .= "<input type='checkbox' id='eq2' value='2'> 2 </input>";
 }
 
 $arrayapuesta_partida = array_chunk($arrayapuesta, 8); // cogemos el array anterior, y lo convertimos. Vamos a coger cada 8 posiciones, guardarlas todas en un array. 
