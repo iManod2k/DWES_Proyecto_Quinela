@@ -9,115 +9,53 @@
        }
     </style>
 </HEAD>
-<BODY>
-   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-       <table border="1">
-        <tr>
-            <td>Partidos</td>
-            <td rowspan="8">Pronosticos</td>
-        </tr>
-        <tr>
-            <td>Celta de Vigo vs Real Madrid</td>
-            <td name="ap1">
-                <label for="1">1</label>
-                <input type="checkbox" name="checkbox" value="1">
-                <label for="x">x</label>
-                <input type="checkbox" name="checkbox" value="x">
-                <label for="2">2</label>
-                <input type="checkbox" name="checkbox" value="2">
-            </td>
-        </tr>
-        <tr>
-            <td>FC Barcelona-Valencia CF</td>
-            <td name="ap2">
-                <label for="1">1</label>
-                <input type="checkbox" name="checkbox" value="1">
-                <label for="x">x</label>
-                <input type="checkbox" name="checkbox" value="x">
-                <label for="2">2</label>
-                <input type="checkbox" name="checkbox" value="2">
-            </td>
-        <tr></tr>
-        <tr></tr>
-        <tr></tr>
-        <tr></tr>
-        <tr></tr>
-        <tr></tr>
-        <tr></tr>
-        <tr></tr>
-        <tr></tr>
-        <tr></tr>
-        <tr></tr>
-       </table>
-   </form>
-<?php
+
+<?php 
+//qeuremos que los partidos se carguen independientemente de si se pulsa o no sumbimt
+include './FuncionesQuiniela.php';
+$Partidos=CrearPartidos();
+
+if($_SERVER['REQUEST_METHOD']=="POST"){
+
+
 //28 equipos
-$arrayequipos=array("Real Madrid",
-    "FC Barcelona",
-    "Atlético de Madrid",
-    "Valencia CF",
-    "Sevilla FC",
-    "Real Betis",
-    "Villarreal CF",
-    "Real Sociedad",
-    "Athletic Club",
-    "Getafe CF",
-    "Celta de Vigo",
-    "Levante UD",
-    "Espanyol",
-    "Deportivo Alavés",
-    "Real Valladolid",
-    "Granada CF",
-    "SD Eibar",
-    "Mallorca",
-    "Osasuna",
-    "Elche CF",
-    "CD Leganés",
-    "Rayo Vallecano",
-    "Huesca",
-    "Cádiz CF",
-    "RCD Mallorca",
-    "Real Zaragoza",
-    "RC Deportivo",
-    "zaragoza FC"
-);
 
-$arraypartidos=array();
+//creamos los partidos llamando a la funcion
 
 
-while (count($arrayequipos)>0) {
-
-    shuffle($arrayequipos);
-
-    //usamos el while para llevar un control sobre el numero de elementos que quedan 
-    
-    $equipo1=array_shift($arrayequipos);//cogemos el primer elemento y lo eliminamos;
-    shuffle($arrayequipos);
-    
-
-    $equipo2=array_shift($arrayequipos);
-    shuffle($arrayequipos);
-
-    $arraypartidos[]=$equipo1 .'-' . $equipo2;
-    
-}
 
 
 //vamos a crear las apuestas, para ellos vamos a crear un array con las 3 posibilidades
 
-$apuestas=array("1", "2", "x");
-$arrayapuesta = array();
+$apuestas=array(array());
+//for que cambia los indices i y j, para que podamos recorrer la nomenclatura elegida en el html. (OPCION COLUMNA-FILA siendo columna j y filas i)
+for ($j=0; $j <= 7; $j++) { 
+   for ($i=0; $i < 8 ; $i++) { 
 
+        if(isset($_REQUEST['opcion' . $i . '-' . $j])){
+            $apuestas[$j][$i] = $_REQUEST['opcion' . $i . '-' . $j];
+        }else {
+            $apuestas[$j][$i] = "-";
 
-for ($i=1; $i <= (8*14); $i++) { 
-    
-    //$arrayapuesta[$i-1] = $apuestas[rand(0,2)];//creamos las apuestas para cada partido en un unico array
-	$arrayapuesta[$i-1] = "<input type='checkbox' id='eq1' value='1'> 1 </input>";
-	$arrayapuesta[$i-1] .= "<input type='checkbox' id='emp' value='x'> X </input>";
-	$arrayapuesta[$i-1] .= "<input type='checkbox' id='eq2' value='2'> 2 </input>";
+        } 
+    }
 }
 
-$arrayapuesta_partida = array_chunk($arrayapuesta, 8); // cogemos el array anterior, y lo convertimos. Vamos a coger cada 8 posiciones, guardarlas todas en un array. 
+
+//cambio la estructura de control que había previamente. 
+
+// for ($i=0; $i <= 13; $i++) { 
+//     for ($j=0; $j <= 7; $j++) { 
+
+//         $arrayapuesta[$i][$j] = $apuestas[rand(0,2)];
+//         //creamos las apuestas para cada partido en un unico array
+//     }
+    
+	
+// }
+
+//$arrayapuesta_partida = array_chunk($arrayapuesta, 8); 
+// cogemos el array anterior, y lo convertimos. Vamos a coger cada 8 posiciones, guardarlas todas en un array. 
 //creamos asi un array bidimensional. Por cada fila (1,2,3...) guardamos las apuestas que a su vez estan en un array.
 
 
@@ -128,14 +66,656 @@ $arrayapuesta_partida = array_chunk($arrayapuesta, 8); // cogemos el array anter
 //imprimimos con tabla
 echo "<table>";
 
-for ($x=0; $x <=13 ; $x++) {
-    echo "<tr>";
-    echo "<td>" . $arraypartidos[$x] . "</td>";
-    for ($y=0; $y <=7 ; $y++) { 
 
-        echo "<td>" .$arrayapuesta_partida[$x][$y] . "</td>";
+
+for ($x=0; $x <=7 ; $x++) {
+
+    echo "<tr>";
+    echo "<td>" . $Partidos[$x] . "</td>";
+
+    for ($y=0; $y < 8 ; $y++) { 
+            //cambiamos de orden los indices para poder tener las columnas 
+        echo "<td>" . $apuestas[$x][$y] . "</td>";
         
     }
+
     echo "</tr>";
 }
+
 echo "</table>";
+}
+?>
+<BODY>
+   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+       <table>
+        <thead>
+            <th>PARTIDOS</th>
+            <th>Apuesta 1</th>
+            <th>Apuesta 2</th>
+            <th>Apuesta 3</th>
+            <th>Apuesta 4</th>
+            <th>Apuesta 5</th>
+            <th>Apuesta 6</th>
+            <th>Apuesta 7</th>
+            <th>Apuesta 8</th>
+        </thead>
+
+        <tr>
+        <td>
+            <?php echo $Partidos[0];?>
+        </td>
+        <td name="ap0">
+    
+            <input type="radio" name="opcion0-0" value="1">1
+    
+            <input type="radio" name="opcion0-0" value="x">x
+    
+            <input type="radio" name="opcion0-0" value="2">2
+        </td>
+    
+        <td name="ap1">
+    
+            <input type="radio" name="opcion1-0" value="1">1
+    
+            <input type="radio" name="opcion1-0" value="x">x
+    
+            <input type="radio" name="opcion1-0" value="2">2
+        </td>
+    
+        <td name="ap2">
+    
+            <input type="radio" name="opcion2-0" value="1">1
+    
+            <input type="radio" name="opcion2-0" value="x">x
+    
+            <input type="radio" name="opcion2-0" value="2">2
+        </td>
+    
+        <td name="ap3">
+    
+            <input type="radio" name="opcion3-0" value="1">1
+    
+            <input type="radio" name="opcion3-0" value="x">x
+    
+            <input type="radio" name="opcion3-0" value="2">2
+        </td>
+    
+        <td name="ap4">
+    
+            <input type="radio" name="opcion4-0" value="1">1
+    
+            <input type="radio" name="opcion4-0" value="x">x
+    
+            <input type="radio" name="opcion4-0" value="2">2
+        </td>
+    
+        <td name="ap5">
+    
+            <input type="radio" name="opcion5-0" value="1">1
+    
+            <input type="radio" name="opcion5-0" value="x">x
+    
+            <input type="radio" name="opcion5-0" value="2">2
+        </td>
+    
+        <td name="ap6">
+    
+            <input type="radio" name="opcion6-0" value="1">1
+    
+            <input type="radio" name="opcion6-0" value="x">x
+    
+            <input type="radio" name="opcion6-0" value="2">2
+        </td>
+    
+        <td name="ap7">
+    
+            <input type="radio" name="opcion7-0" value="1">1
+    
+            <input type="radio" name="opcion7-0" value="x">x
+    
+            <input type="radio" name="opcion7-0" value="2">2
+        </td>
+    </tr>
+    <tr>
+    
+        <!-- columna 0 fila 1-->
+        <td>
+            <?php echo $Partidos[1];?>
+        </td>
+        <td name="ap8">
+    
+            <input type="radio" name="opcion0-1" value="1">1
+    
+            <input type="radio" name="opcion0-1" value="x">x
+    
+            <input type="radio" name="opcion0-1" value="2">2
+        </td>
+    
+        <td name="ap9">
+    
+            <input type="radio" name="opcion1-1" value="1">1
+    
+            <input type="radio" name="opcion1-1" value="x">x
+    
+            <input type="radio" name="opcion1-1" value="2">2
+        </td>
+    
+        <td name="ap10">
+    
+            <input type="radio" name="opcion2-1" value="1">1
+    
+            <input type="radio" name="opcion2-1" value="x">x
+    
+            <input type="radio" name="opcion2-1" value="2">2
+        </td>
+    
+        <td name="ap11">
+    
+            <input type="radio" name="opcion3-1" value="1">1
+    
+            <input type="radio" name="opcion3-1" value="x">x
+    
+            <input type="radio" name="opcion3-1" value="2">2
+        </td>
+    
+        <td name="ap12">
+    
+            <input type="radio" name="opcion4-1" value="1">1
+    
+            <input type="radio" name="opcion4-1" value="x">x
+    
+            <input type="radio" name="opcion4-1" value="2">2
+        </td>
+    
+        <td name="ap13">
+    
+            <input type="radio" name="opcion5-1" value="1">1
+    
+            <input type="radio" name="opcion5-1" value="x">x
+    
+            <input type="radio" name="opcion5-1" value="2">2
+        </td>
+    
+        <td name="ap14">
+    
+            <input type="radio" name="opcion6-1" value="1">1
+    
+            <input type="radio" name="opcion6-1" value="x">x
+    
+            <input type="radio" name="opcion6-1" value="2">2
+        </td>
+    
+        <td name="ap15">
+    
+            <input type="radio" name="opcion7-1" value="1">1
+    
+            <input type="radio" name="opcion7-1" value="x">x
+    
+            <input type="radio" name="opcion7-1" value="2">2
+        </td>
+    </tr>
+    <!-- columna  fila 2-->
+    <tr>
+        <td>
+            <?php echo $Partidos[2];?>
+        </td>
+        <td name="ap8">
+    
+            <input type="radio" name="opcion0-2" value="1">1
+    
+            <input type="radio" name="opcion0-2" value="x">x
+    
+            <input type="radio" name="opcion0-2" value="2">2
+        </td>
+    
+        <td name="ap9">
+    
+            <input type="radio" name="opcion1-2" value="1">1
+    
+            <input type="radio" name="opcion1-2" value="x">x
+    
+            <input type="radio" name="opcion1-2" value="2">2
+        </td>
+    
+        <td name="ap10">
+    
+            <input type="radio" name="opcion2-2" value="1">1
+    
+            <input type="radio" name="opcion2-2" value="x">x
+    
+            <input type="radio" name="opcion2-2" value="2">2
+        </td>
+    
+        <td name="ap11">
+    
+            <input type="radio" name="opcion3-2" value="1">1
+    
+            <input type="radio" name="opcion3-2" value="x">x
+    
+            <input type="radio" name="opcion3-2" value="2">2
+        </td>
+    
+        <td name="ap12">
+    
+            <input type="radio" name="opcion4-2" value="1">1
+    
+            <input type="radio" name="opcion4-2" value="x">x
+    
+            <input type="radio" name="opcion4-2" value="2">2
+        </td>
+    
+        <td name="ap13">
+    
+            <input type="radio" name="opcion5-2" value="1">1
+    
+            <input type="radio" name="opcion5-2" value="x">x
+    
+            <input type="radio" name="opcion5-2" value="2">2
+        </td>
+    
+        <td name="ap14">
+    
+            <input type="radio" name="opcion6-2" value="1">1
+    
+            <input type="radio" name="opcion6-2" value="x">x
+    
+            <input type="radio" name="opcion6-2" value="2">2
+        </td>
+    
+        <td name="ap15">
+    
+            <input type="radio" name="opcion7-2" value="1">1
+    
+            <input type="radio" name="opcion7-2" value="x">x
+    
+            <input type="radio" name="opcion7-2" value="2">2
+        </td>
+    </tr>
+    <!-- columna  fila 3-->
+    <tr>
+        <td>
+            <?php echo $Partidos[3];?>
+        </td>
+        <td name="ap8">
+    
+            <input type="radio" name="opcion0-3" value="1">1
+    
+            <input type="radio" name="opcion0-3" value="x">x
+    
+            <input type="radio" name="opcion0-3" value="2">2
+        </td>
+    
+        <td name="ap9">
+    
+            <input type="radio" name="opcion1-3" value="1">1
+    
+            <input type="radio" name="opcion1-3" value="x">x
+    
+            <input type="radio" name="opcion1-3" value="2">2
+        </td>
+    
+        <td name="ap10">
+    
+            <input type="radio" name="opcion2-3" value="1">1
+    
+            <input type="radio" name="opcion2-3" value="x">x
+    
+            <input type="radio" name="opcion2-3" value="2">2
+        </td>
+    
+        <td name="ap11">
+    
+            <input type="radio" name="opcion3-3" value="1">1
+    
+            <input type="radio" name="opcion3-3" value="x">x
+    
+            <input type="radio" name="opcion3-3" value="2">2
+        </td>
+    
+        <td name="ap12">
+    
+            <input type="radio" name="opcion4-3" value="1">1
+    
+            <input type="radio" name="opcion4-3" value="x">x
+    
+            <input type="radio" name="opcion4-3" value="2">2
+        </td>
+    
+        <td name="ap13">
+    
+            <input type="radio" name="opcion5-3" value="1">1
+    
+            <input type="radio" name="opcion5-3" value="x">x
+    
+            <input type="radio" name="opcion5-3" value="2">2
+        </td>
+    
+        <td name="ap14">
+    
+            <input type="radio" name="opcion6-3" value="1">1
+    
+            <input type="radio" name="opcion6-3" value="x">x
+    
+            <input type="radio" name="opcion6-3" value="2">2
+        </td>
+    
+        <td name="ap15">
+    
+            <input type="radio" name="opcion7-3" value="1">1
+    
+            <input type="radio" name="opcion7-3" value="x">x
+    
+            <input type="radio" name="opcion7-3" value="2">2
+        </td>
+    </tr>
+    <!-- columna  fila 4-->
+    <tr>
+        <td>
+            <?php echo $Partidos[4];?>
+        </td>
+        <td name="ap8">
+    
+            <input type="radio" name="opcion0-4" value="1">1
+    
+            <input type="radio" name="opcion0-4" value="x">x
+    
+            <input type="radio" name="opcion0-4" value="2">2
+        </td>
+    
+        <td name="ap9">
+    
+            <input type="radio" name="opcion1-4" value="1">1
+    
+            <input type="radio" name="opcion1-4" value="x">x
+    
+            <input type="radio" name="opcion1-4" value="2">2
+        </td>
+    
+        <td name="ap10">
+    
+            <input type="radio" name="opcion2-4" value="1">1
+    
+            <input type="radio" name="opcion2-4" value="x">x
+    
+            <input type="radio" name="opcion2-4" value="2">2
+        </td>
+    
+        <td name="ap11">
+    
+            <input type="radio" name="opcion3-4" value="1">1
+    
+            <input type="radio" name="opcion3-4" value="x">x
+    
+            <input type="radio" name="opcion3-4" value="2">2
+        </td>
+    
+        <td name="ap12">
+    
+            <input type="radio" name="opcion4-4" value="1">1
+    
+            <input type="radio" name="opcion4-4" value="x">x
+    
+            <input type="radio" name="opcion4-4" value="2">2
+        </td>
+    
+        <td name="ap13">
+    
+            <input type="radio" name="opcion5-4" value="1">1
+    
+            <input type="radio" name="opcion5-4" value="x">x
+    
+            <input type="radio" name="opcion5-4" value="2">2
+        </td>
+    
+        <td name="ap14">
+    
+            <input type="radio" name="opcion6-4" value="1">1
+    
+            <input type="radio" name="opcion6-4" value="x">x
+    
+            <input type="radio" name="opcion6-4" value="2">2
+        </td>
+    
+        <td name="ap15">
+    
+            <input type="radio" name="opcion7-4" value="1">1
+    
+            <input type="radio" name="opcion7-4" value="x">x
+    
+            <input type="radio" name="opcion7-4" value="2">2
+        </td>
+    </tr>
+    <!-- columna  fila 5-->
+    <tr>
+        <td>
+            <?php echo $Partidos[5];?>
+        </td>
+        <td name="ap8">
+    
+            <input type="radio" name="opcion0-5" value="1">1
+    
+            <input type="radio" name="opcion0-5" value="x">x
+    
+            <input type="radio" name="opcion0-5" value="2">2
+        </td>
+    
+        <td name="ap9">
+    
+            <input type="radio" name="opcion1-5" value="1">1
+    
+            <input type="radio" name="opcion1-5" value="x">x
+    
+            <input type="radio" name="opcion1-5" value="2">2
+        </td>
+    
+        <td name="ap10">
+    
+            <input type="radio" name="opcion2-5" value="1">1
+    
+            <input type="radio" name="opcion2-5" value="x">x
+    
+            <input type="radio" name="opcion2-5" value="2">2
+        </td>
+    
+        <td name="ap11">
+    
+            <input type="radio" name="opcion3-5" value="1">1
+    
+            <input type="radio" name="opcion3-5" value="x">x
+    
+            <input type="radio" name="opcion3-5" value="2">2
+        </td>
+    
+        <td name="ap12">
+    
+            <input type="radio" name="opcion4-5" value="1">1
+    
+            <input type="radio" name="opcion4-5" value="x">x
+    
+            <input type="radio" name="opcion4-5" value="2">2
+        </td>
+    
+        <td name="ap13">
+    
+            <input type="radio" name="opcion5-5" value="1">1
+    
+            <input type="radio" name="opcion5-5" value="x">x
+    
+            <input type="radio" name="opcion5-5" value="2">2
+        </td>
+    
+        <td name="ap14">
+    
+            <input type="radio" name="opcion6-5" value="1">1
+    
+            <input type="radio" name="opcion6-5" value="x">x
+    
+            <input type="radio" name="opcion6-5" value="2">2
+        </td>
+    
+        <td name="ap15">
+    
+            <input type="radio" name="opcion7-5" value="1">1
+    
+            <input type="radio" name="opcion7-5" value="x">x
+    
+            <input type="radio" name="opcion7-5" value="2">2
+        </td>
+    </tr>
+    <!-- columna  fila 6-->
+    <tr>
+        <td>
+            <?php echo $Partidos[6];?>
+        </td>
+        <td name="ap8">
+    
+            <input type="radio" name="opcion0-6" value="1">1
+    
+            <input type="radio" name="opcion0-6" value="x">x
+    
+            <input type="radio" name="opcion0-6" value="2">2
+        </td>
+    
+        <td name="ap9">
+    
+            <input type="radio" name="opcion1-6" value="1">1
+    
+            <input type="radio" name="opcion1-6" value="x">x
+    
+            <input type="radio" name="opcion1-6" value="2">2
+        </td>
+    
+        <td name="ap10">
+    
+            <input type="radio" name="opcion2-6" value="1">1
+    
+            <input type="radio" name="opcion2-6" value="x">x
+    
+            <input type="radio" name="opcion2-6" value="2">2
+        </td>
+    
+        <td name="ap11">
+    
+            <input type="radio" name="opcion3-6" value="1">1
+    
+            <input type="radio" name="opcion3-6" value="x">x
+    
+            <input type="radio" name="opcion3-6" value="2">2
+        </td>
+    
+        <td name="ap12">
+    
+            <input type="radio" name="opcion4-6" value="1">1
+    
+            <input type="radio" name="opcion4-6" value="x">x
+    
+            <input type="radio" name="opcion4-6" value="2">2
+        </td>
+    
+        <td name="ap13">
+    
+            <input type="radio" name="opcion5-6" value="1">1
+    
+            <input type="radio" name="opcion5-6" value="x">x
+    
+            <input type="radio" name="opcion5-6" value="2">2
+        </td>
+    
+        <td name="ap14">
+    
+            <input type="radio" name="opcion6-6" value="1">1
+    
+            <input type="radio" name="opcion6-6" value="x">x
+    
+            <input type="radio" name="opcion6-6" value="2">2
+        </td>
+    
+        <td name="ap15">
+    
+            <input type="radio" name="opcion7-6" value="1">1
+    
+            <input type="radio" name="opcion7-6" value="x">x
+    
+            <input type="radio" name="opcion7-6" value="2">2
+        </td>
+    </tr>
+    <!-- columna  fila 7 y ultima-->
+    <tr>
+        <td>
+            <?php echo $Partidos[7];?>
+        </td>
+        <td name="ap8">
+    
+            <input type="radio" name="opcion0-7" value="1">1
+    
+            <input type="radio" name="opcion0-7" value="x">x
+    
+            <input type="radio" name="opcion0-7" value="2">2
+        </td>
+    
+        <td name="ap9">
+    
+            <input type="radio" name="opcion1-7" value="1">1
+    
+            <input type="radio" name="opcion1-7" value="x">x
+    
+            <input type="radio" name="opcion1-7" value="2">2
+        </td>
+    
+        <td name="ap10">
+    
+            <input type="radio" name="opcion2-7" value="1">1
+    
+            <input type="radio" name="opcion2-7" value="x">x
+    
+            <input type="radio" name="opcion2-7" value="2">2
+        </td>
+    
+        <td name="ap11">
+    
+            <input type="radio" name="opcion3-7" value="1">1
+    
+            <input type="radio" name="opcion3-7" value="x">x
+    
+            <input type="radio" name="opcion3-7" value="2">2
+        </td>
+    
+        <td name="ap12">
+    
+            <input type="radio" name="opcion4-7" value="1">1
+    
+            <input type="radio" name="opcion4-7" value="x">x
+    
+            <input type="radio" name="opcion4-7" value="2">2
+        </td>
+    
+        <td name="ap13">
+    
+            <input type="radio" name="opcion5-7" value="1">1
+    
+            <input type="radio" name="opcion5-7" value="x">x
+    
+            <input type="radio" name="opcion5-7" value="2">2
+        </td>
+    
+        <td name="ap14">
+    
+            <input type="radio" name="opcion6-7" value="1">1
+    
+            <input type="radio" name="opcion6-7" value="x">x
+    
+            <input type="radio" name="opcion6-7" value="2">2
+        </td>
+    
+        <td name="ap15">
+    
+            <input type="radio" name="opcion7-7" value="1">1
+    
+            <input type="radio" name="opcion7-7" value="x">x
+    
+            <input type="radio" name="opcion7-7" value="2">2
+        </td>
+    </tr>
+       </table>
+       <button type="submit">enviar</button>
+   </form>
