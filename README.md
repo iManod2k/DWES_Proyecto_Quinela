@@ -4,7 +4,7 @@ Falta:
 
   -Modularizar mas el codigo. 
   -Poner las 14 filas. 
-  -Meter los partidos en una variable fija. // Ojo cuidao . 
+  -Meter los partidos en una variable fija. // Ojo cuidao . --CONSEGUIDO!
   -Llevar un control sonbre la entrada de datos del formulario. Solo debe aceptar las columnas completas. Si alguna esta incompleta, no validará y monstrará un mensaje de error. 
   
 Idea:
