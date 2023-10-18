@@ -9,83 +9,20 @@
        }
     </style>
 </HEAD>
-
-<?php 
-//qeuremos que los partidos se carguen independientemente de si se pulsa o no sumbimt
-include './FuncionesQuiniela.php';
-$Partidos=CrearPartidos();
-
-if($_SERVER['REQUEST_METHOD']=="POST"){
-
-
-//28 equipos
-
-//creamos los partidos llamando a la funcion
-
-
-
-
-//vamos a crear las apuestas, para ellos vamos a crear un array con las 3 posibilidades
-
-$apuestas=array(array());
-//for que cambia los indices i y j, para que podamos recorrer la nomenclatura elegida en el html. (OPCION COLUMNA-FILA siendo columna j y filas i)
-for ($j=0; $j <= 7; $j++) { 
-   for ($i=0; $i < 8 ; $i++) { 
-
-        if(isset($_REQUEST['opcion' . $i . '-' . $j])){
-            $apuestas[$j][$i] = $_REQUEST['opcion' . $i . '-' . $j];
-        }else {
-            $apuestas[$j][$i] = "-";
-
-        } 
-    }
+<?php
+session_start();
+//Cargamos la funcion. Ya que queremos que los partidos se carguen independientemente de si se pulsa o no sumbimt
+if($_SERVER['REQUEST_METHOD']!="POST"){
+    include './FuncionesQuiniela.php';
+    $Partidos=CrearPartidos();
+    $_SESSION['partidos']=$Partidos;
 }
 
+$Partidos=$_SESSION['partidos'];
 
-//cambio la estructura de control que había previamente. 
-
-// for ($i=0; $i <= 13; $i++) { 
-//     for ($j=0; $j <= 7; $j++) { 
-
-//         $arrayapuesta[$i][$j] = $apuestas[rand(0,2)];
-//         //creamos las apuestas para cada partido en un unico array
-//     }
-    
-	
-// }
-
-//$arrayapuesta_partida = array_chunk($arrayapuesta, 8); 
-// cogemos el array anterior, y lo convertimos. Vamos a coger cada 8 posiciones, guardarlas todas en un array. 
-//creamos asi un array bidimensional. Por cada fila (1,2,3...) guardamos las apuestas que a su vez estan en un array.
-
-
-//print_r($arrayapuesta);
-
-
-
-//imprimimos con tabla
-echo "<table>";
-
-
-
-for ($x=0; $x <=7 ; $x++) {
-
-    echo "<tr>";
-    echo "<td>" . $Partidos[$x] . "</td>";
-
-    for ($y=0; $y < 8 ; $y++) { 
-            //cambiamos de orden los indices para poder tener las columnas 
-        echo "<td>" . $apuestas[$x][$y] . "</td>";
-        
-    }
-
-    echo "</tr>";
-}
-
-echo "</table>";
-}
 ?>
 <BODY>
+
    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
        <table>
         <thead>
@@ -719,3 +656,70 @@ echo "</table>";
        </table>
        <button type="submit">enviar</button>
    </form>
+
+
+<?php 
+
+//comprobamos la condicion para saber si el usuario ha pulsado el boton submit.
+if($_SERVER['REQUEST_METHOD']=="POST"){
+
+
+//crearemos un array bidimensional en el que guardar los datos recogidos por el formulario.`p
+$apuestas=array(array());
+//for que cambia los indices i y j, para que podamos recorrer la nomenclatura elegida en el html. (OPCION COLUMNA-FILA siendo columna j y filas i)
+for ($j=0; $j <= 7; $j++) { 
+   for ($i=0; $i < 8 ; $i++) { 
+
+        if(isset($_REQUEST['opcion' . $i . '-' . $j])){
+            $apuestas[$j][$i] = $_REQUEST['opcion' . $i . '-' . $j];
+        }else {
+            $apuestas[$j][$i] = "-";
+
+        } 
+    }
+}
+
+
+//cambio la estructura de control que había previamente. 
+
+// for ($i=0; $i <= 13; $i++) { 
+//     for ($j=0; $j <= 7; $j++) { 
+
+//         $arrayapuesta[$i][$j] = $apuestas[rand(0,2)];
+//         //creamos las apuestas para cada partido en un unico array
+//     }
+    
+	
+// }
+
+//$arrayapuesta_partida = array_chunk($arrayapuesta, 8); 
+// cogemos el array anterior, y lo convertimos. Vamos a coger cada 8 posiciones, guardarlas todas en un array. 
+//creamos asi un array bidimensional. Por cada fila (1,2,3...) guardamos las apuestas que a su vez estan en un array.
+
+
+//print_r($arrayapuesta);
+
+
+
+//imprimimos con tabla
+echo "<table>";
+
+$partidosphp=$_SESSION['partidos'];
+
+for ($x=0; $x <=7 ; $x++) {
+
+    echo "<tr>";
+    echo "<td>" . $partidosphp[$x] . "</td>";
+
+    for ($y=0; $y < 8 ; $y++) { 
+            //cambiamos de orden los indices para poder tener las columnas 
+        echo "<td>" . $apuestas[$x][$y] . "</td>";
+        
+    }
+
+    echo "</tr>";
+}
+
+echo "</table>";
+}
+?>
